@@ -22,6 +22,15 @@ class Role
         return $this->name;
     }
 
+    public function isUser(): bool
+    {
+        if($this->name === self::USER) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function roleExists(String $role): bool
     {
         if(in_array($role, static::getRoleList())) {
