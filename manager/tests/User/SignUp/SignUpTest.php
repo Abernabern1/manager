@@ -4,7 +4,6 @@ namespace App\Tests\User\SignUp;
 
 use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Login;
-use App\Model\User\Entity\Password;
 use App\Model\User\Entity\User;
 use App\Model\User\Service\ConfirmTokenizer;
 use App\Model\User\Service\PasswordHasher;
@@ -20,7 +19,7 @@ class SignUpTest extends TestCase
         $user = new User(
             $email = new Email('email@email.email'),
             $login = new Login('login'),
-            $password = new Password($passwordHasher, 'password', 'password'),
+            $password = $passwordHasher->hash('password', 'password'),
             $token = $tokenizer->make()
         );
 

@@ -2,6 +2,8 @@
 
 namespace App\Model\User\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 class User
 {
     public const STATUS_WAITING = 'waiting';
@@ -16,7 +18,7 @@ class User
      */
     private $login;
     /**
-     * @var Password
+     * @var string
      */
     private $password;
     /**
@@ -32,7 +34,7 @@ class User
      */
     private $confirmToken;
 
-    public function __construct(Email $email, Login $login, Password $password, ConfirmToken $confirmToken)
+    public function __construct(Email $email, Login $login, string $password, ConfirmToken $confirmToken)
     {
         $this->email = $email;
         $this->login = $login;
@@ -53,7 +55,7 @@ class User
         return $this->login;
     }
 
-    public function getPassword(): Password
+    public function getPassword(): string
     {
         return $this->password;
     }

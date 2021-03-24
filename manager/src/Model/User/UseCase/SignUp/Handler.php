@@ -5,7 +5,6 @@ namespace App\Model\User\UseCase\SignUp;
 use App\Model\Flusher;
 use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Login;
-use App\Model\User\Entity\Password;
 use App\Model\User\Entity\User;
 use App\Model\User\Repositories\UserRepository;
 use App\Model\User\Service\ConfirmTokenizer;
@@ -55,7 +54,7 @@ class Handler
         $user = new User(
             $email = new Email($command->email),
             new Login($command->login),
-            new Password($this->passwordHasher, $command->password, $command->repeatPassword),
+            $this->passwordHasher->hash($command->password, $command->passwordRepeat),
             $token = $this->confirmTokenizer->make()
         );
 

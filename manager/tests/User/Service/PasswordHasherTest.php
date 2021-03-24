@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Tests\User\Entity;
+namespace App\Tests\User\Service;
 
-use App\Model\User\Entity\Password;
 use App\Model\User\Service\PasswordHasher;
 use PHPUnit\Framework\TestCase;
 
-class PasswordTest extends TestCase
+class PasswordHasherTest extends TestCase
 {
     public function testPasswordsDiffer(): void
     {
+        $passwordHasher = new PasswordHasher(PASSWORD_ARGON2I);
+
         $this->expectExceptionMessage('Passwords are not equal.');
 
-        new Password(
-            new PasswordHasher(PASSWORD_ARGON2I),
+        $passwordHasher->hash(
             'password1',
             'password2'
         );
@@ -22,13 +22,13 @@ class PasswordTest extends TestCase
     public function testPasswordHashed(): void
     {
         $passwordValue = 'password';
+        $passwordHasher = new PasswordHasher(PASSWORD_ARGON2I);
 
-        $password = new Password(
-            new PasswordHasher(PASSWORD_ARGON2I),
+        $password = $passwordHasher->hash(
             $passwordValue,
             $passwordValue
         );
 
-        $this->assertNotEquals($passwordValue, $password->getValue());
+        $this->assertNotEquals($passwordValue, $password);
     }
 }

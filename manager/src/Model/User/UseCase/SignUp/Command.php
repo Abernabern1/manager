@@ -7,5 +7,5 @@ class Command
     public $email;
     public $login;
     public $password;
-    public $repeatPassword;
+    public $passwordRepeat;
 }
