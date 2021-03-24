@@ -24,6 +24,7 @@ services:
             - ./manager:/app
     app-mysql:
         image: mysql:5.7
+        restart: always
         volumes:
             - mysql:/var/lib/mysql
         environment:
