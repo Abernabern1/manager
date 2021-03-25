@@ -4,33 +4,54 @@ namespace App\Model\User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user_users", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"email"})
+ * })
+ */
 class User
 {
     public const STATUS_WAITING = 'waiting';
     public const STATUS_ACTIVE = 'active';
 
     /**
+     * @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
      * @var Email
+     * @ORM\Column(type="user_email")
      */
     private $email;
     /**
      * @var Login
+     * @ORM\Column(type="user_login")
      */
     private $login;
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $password;
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $status;
     /**
      * @var Role
+     * @ORM\Column(type="user_role")
      */
     private $role;
     /**
      * @var ConfirmToken
+     * @ORM\Column(type="user_confirm_token", name="confirm_token", nullable=true)
      */
     private $confirmToken;
 
@@ -43,6 +64,11 @@ class User
 
         $this->status = self::STATUS_WAITING;
         $this->role = new Role(Role::USER);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getEmail(): Email
