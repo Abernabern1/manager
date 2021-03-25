@@ -30,7 +30,7 @@ class SignUpConfirmTokenMailer
         $email = (new Email())
             ->to($emailTo->getValue())
             ->subject('Sign up confirmation')
-            ->html($this->twig->render('mail/user/signUp.html.twig.html', ['token' => $token->getValue()]));
+            ->html($this->twig->render('mail/user/confirm_email.html.twig', ['token' => $token->getValue()]));
 
         $this->mailer->send($email);
     }
