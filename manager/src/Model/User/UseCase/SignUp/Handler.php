@@ -6,7 +6,7 @@ use App\Model\Flusher;
 use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Login;
 use App\Model\User\Entity\User;
-use App\Model\User\Repositories\UserRepository;
+use App\Model\User\Repository\UserRepository;
 use App\Model\User\Service\ConfirmTokenizer;
 use App\Model\User\Service\PasswordHasher;
 use App\Model\User\Service\SignUpConfirmTokenMailer;
@@ -49,7 +49,7 @@ class Handler
         $this->mailer = $mailer;
     }
 
-    public function signUp(Command $command): void
+    public function handle(Command $command): void
     {
         $user = new User(
             $email = new Email($command->email),

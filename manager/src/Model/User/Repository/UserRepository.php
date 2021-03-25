@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Model\User\Repositories;
+namespace App\Model\User\Repository;
 
 use App\Model\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
 
 class UserRepository
@@ -13,7 +14,7 @@ class UserRepository
      */
     private $em;
     /**
-     * @var ObjectRepository
+     * @var EntityRepository
      */
     private $repo;
 
