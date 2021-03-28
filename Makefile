@@ -1,4 +1,4 @@
-init: down-clear build up
+init: down-clear build up composer-install
 restart: down up
 
 build:
@@ -12,6 +12,9 @@ down:
 
 down-clear:
 	docker-compose down -v  --remove-orphans
+
+composer-install:
+	docker-compose run app-php-cli composer install
 
 migrations-make:
 	docker-compose run app-php-cli php bin/console doctrine:migrations:diff --no-interaction

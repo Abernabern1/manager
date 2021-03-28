@@ -24,11 +24,10 @@ services:
             - ./manager:/app
     app-mysql:
         image: mysql:5.7
-        restart: always
         volumes:
             - mysql:/var/lib/mysql
         environment:
-            - "MYSQL_USER=root"
+            - "MYSQL_USER=app"
             - "MYSQL_PASSWORD=secret"
             - "MYSQL_DATABASE=app"
             - "MYSQL_ROOT_PASSWORD=secret"
