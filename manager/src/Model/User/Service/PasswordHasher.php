@@ -19,4 +19,9 @@ class PasswordHasher
 
         return password_hash($password, $this->hasherAlgo);
     }
+
+    public function isValid($password, $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
 }
