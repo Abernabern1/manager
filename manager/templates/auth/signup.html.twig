@@ -3,11 +3,14 @@
 {% block title %}Sign up{% endblock %}
 
 {% block body %}
+    {% for status in app.flashes('status') %}
+        {{ status }}
+    {% endfor %}
     {% for error in app.flashes('error') %}
         {{ error }}
     {% endfor %}
-    {% for error in app.flashes('success') %}
-        {{ error }}
+    {% for success in app.flashes('success') %}
+        {{ success }}
     {% endfor %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
