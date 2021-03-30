@@ -66,6 +66,15 @@ class User
         $this->role = new Role(Role::USER);
     }
 
+    public function activate(): void
+    {
+        if($this->status !== self::STATUS_WAITING) {
+            throw new \DomainException('User is not waiting for activation.');
+        }
+
+        $this->status = self::STATUS_ACTIVE;
+    }
+
     public function getId(): int
     {
         return $this->id;

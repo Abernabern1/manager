@@ -2,6 +2,7 @@
 
 namespace App\Model\User\Repository;
 
+use App\Model\EntityNotFoundException;
 use App\Model\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -27,5 +28,14 @@ class UserRepository
     public function add(User $user): void
     {
         $this->em->persist($user);
+    }
+
+    public function getByToken(string $token): User
+    {
+        if(!$user = $this->repo->findOneBy(['confirmToken' => $token])) {
+            throw new EntityNotFoundException();
+        }
+
+        return $user;
     }
 }
