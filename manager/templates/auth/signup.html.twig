@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block body %}
+    {% for error in app.flashes('error') %}
+        {{ error }}
+    {% endfor %}
+    {% for error in app.flashes('success') %}
+        {{ error }}
+    {% endfor %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Send">
+    {{ form_end(form) }}
+{% endblock %}
