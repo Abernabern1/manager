@@ -94,4 +94,19 @@ class UserAuth implements UserInterface, EquatableInterface
     {
         return $this->status === User::STATUS_ACTIVE;
     }
+
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        return
+            $this->id === $user->id &&
+            $this->email === $user->email &&
+            $this->login === $user->login &&
+            $this->password === $user->password &&
+            $this->role === $user->role &&
+            $this->status === $user->status;
+    }
 }
