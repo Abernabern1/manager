@@ -51,10 +51,14 @@ class Handler
 
     public function handle(Command $command): void
     {
+        if($this->passwordHasher->passwordsAreEqual($command->password, $command->passwordRepeat)) {
+            throw new \DomainException('Passwords are not equal.');
+        }
+
         $user = new User(
             $email = new Email($command->email),
             new Login($command->login),
-            $this->passwordHasher->hash($command->password, $command->passwordRepeat),
+            $this->passwordHasher->hash($command->password),
             $token = $this->confirmTokenizer->make()
         );
 
