@@ -3,11 +3,16 @@
 namespace App\Security;
 
 use App\Model\User\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserAuth implements UserInterface, EquatableInterface
 {
+    /**
+     * @var FlashBagInterface
+     */
+    private $session;
     /**
      * @var string
      */
@@ -34,6 +39,7 @@ class UserAuth implements UserInterface, EquatableInterface
     private $status;
 
     public function __construct(
+        FlashBagInterface $session,
         string $id,
         string $email,
         string $login,
@@ -48,6 +54,7 @@ class UserAuth implements UserInterface, EquatableInterface
         $this->password = $password;
         $this->role = $role;
         $this->status = $status;
+        $this->session = $session;
     }
 
     public function getUsername(): string
@@ -105,8 +112,13 @@ class UserAuth implements UserInterface, EquatableInterface
             $this->id === $user->id &&
             $this->email === $user->email &&
             $this->login === $user->login &&
-            $this->password === $user->password &&
+            ($this->passwordIsReset() || $this->password === $user->password) &&
             $this->role === $user->role &&
             $this->status === $user->status;
+    }
+
+    private function passwordIsReset(): bool
+    {
+        return in_array('Password is successfully changed.', $this->session->peek('success'));
     }
 }

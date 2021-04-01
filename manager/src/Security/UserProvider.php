@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\ModelReader\User\UserFetcher;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,9 +16,15 @@ class UserProvider implements UserProviderInterface
      */
     private $users;
 
-    public function __construct(UserFetcher $users)
+    /**
+     * @var FlashBagInterface
+     */
+    private $session;
+
+    public function __construct(UserFetcher $users, FlashBagInterface $session)
     {
         $this->users = $users;
+        $this->session = $session;
     }
 
     public function loadUserByUsername(string $username): UserInterface
@@ -48,6 +55,7 @@ class UserProvider implements UserProviderInterface
         }
 
         return new UserAuth(
+            $this->session,
             $user['id'],
             $user['email'],
             $user['login'],
