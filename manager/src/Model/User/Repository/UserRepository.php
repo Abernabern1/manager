@@ -38,4 +38,13 @@ class UserRepository
 
         return $user;
     }
+
+    public function getByLogin(string $login): User
+    {
+        if(!$user = $this->repo->findOneBy(['login' => $login])) {
+            throw new EntityNotFoundException();
+        }
+
+        return $user;
+    }
 }
