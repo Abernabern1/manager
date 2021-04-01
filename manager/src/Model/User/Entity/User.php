@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="user_users", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"email"})
+ *     @ORM\UniqueConstraint(columns={"email"}),
  * })
  */
 class User
@@ -73,6 +73,11 @@ class User
         }
 
         $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function changePassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getId(): int
