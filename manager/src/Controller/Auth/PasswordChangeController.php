@@ -6,11 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Model\User\UseCase\ResetPassword;
-use App\Model\User\UseCase\ResetPassword\Request\Handler as RequestHandler;
-use App\Model\User\UseCase\ResetPassword\Confirm\Handler as ConfirmHandler;
+use App\Model\User\UseCase\ChangePassword;
+use App\Model\User\UseCase\ChangePassword\Request\Handler as RequestHandler;
+use App\Model\User\UseCase\ChangePassword\Confirm\Handler as ConfirmHandler;
 
-class PasswordResetController extends AbstractController
+class PasswordChangeController extends AbstractController
 {
     /**
      * @var RequestHandler
@@ -29,15 +29,15 @@ class PasswordResetController extends AbstractController
     }
 
     /**
-     * @Route("/password_reset", name="auth.password_reset.request")
+     * @Route("/password_change", name="auth.password_change.request")
      * @param Request $request
      * @return Response
      */
     public function request(Request $request): Response
     {
-        $command = new ResetPassword\Request\Command();
+        $command = new ChangePassword\Request\Command();
         $command->login = $this->getUser()->getLogin();
-        $form = $this->createForm(ResetPassword\Request\Form::class, $command);
+        $form = $this->createForm(ChangePassword\Request\Form::class, $command);
 
         $form->handleRequest($request);
 
@@ -48,22 +48,22 @@ class PasswordResetController extends AbstractController
             } catch (\DomainException $e) {
                 $this->addFlash('error', $e->getMessage());
             }
-            return $this->redirectToRoute('auth.password_reset.request');
+            return $this->redirectToRoute('auth.password_change.request');
         }
 
-        return $this->render('auth/password_reset.html.twig', [
+        return $this->render('auth/password_change.html.twig', [
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/password_reset/{token}", name="auth.password_reset.confirm")
+     * @Route("/password_change/{token}", name="auth.password_change.confirm")
      * @param string $token
      * @return Response
      */
     public function confirm(string $token): Response
     {
-        $command = new ResetPassword\Confirm\Command();
+        $command = new ChangePassword\Confirm\Command();
         $command->login = $this->getUser()->getLogin();
         $command->token = $token;
 
@@ -74,6 +74,6 @@ class PasswordResetController extends AbstractController
             $this->addFlash('error', $e->getMessage());
         }
 
-        return $this->redirectToRoute('auth.password_reset.request');
+        return $this->redirectToRoute('auth.password_change.request');
     }
 }

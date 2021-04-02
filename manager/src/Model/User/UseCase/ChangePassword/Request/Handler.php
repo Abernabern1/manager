@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Model\User\UseCase\ResetPassword\Request;
+namespace App\Model\User\UseCase\ChangePassword\Request;
 
 use App\Model\Flusher;
 use App\Model\User\Entity\Email;
-use App\Model\User\Entity\PasswordReset;
+use App\Model\User\Entity\PasswordChange;
 use App\Model\User\Entity\User;
-use App\Model\User\Repository\PasswordResetRepository;
+use App\Model\User\Repository\PasswordChangeRepository;
 use App\Model\User\Repository\UserRepository;
 use App\Model\User\Service\PasswordHasher;
-use App\Model\User\Service\PasswordResetMailer;
-use App\Model\User\Service\ResetTokenizer;
+use App\Model\User\Service\PasswordChangeMailer;
+use App\Model\User\Service\ChangeTokenizer;
 
 class Handler
 {
@@ -20,9 +20,9 @@ class Handler
     private $users;
 
     /**
-     * @var PasswordResetRepository
+     * @var PasswordChangeRepository
      */
-    private $passwordResets;
+    private $passwordChanges;
 
     /**
      * @var PasswordHasher
@@ -30,12 +30,12 @@ class Handler
     private $passwordHasher;
 
     /**
-     * @var ResetTokenizer
+     * @var ChangeTokenizer
      */
     private $tokenizer;
 
     /**
-     * @var PasswordResetMailer
+     * @var PasswordChangeMailer
      */
     private $mailer;
 
@@ -46,15 +46,15 @@ class Handler
 
     public function __construct(
         UserRepository $users,
-        PasswordResetRepository $passwordResets,
+        PasswordChangeRepository $passwordChanges,
         PasswordHasher $passwordHasher,
-        ResetTokenizer $tokenizer,
-        PasswordResetMailer $mailer,
+        ChangeTokenizer $tokenizer,
+        PasswordChangeMailer $mailer,
         Flusher $flusher
     )
     {
         $this->users = $users;
-        $this->passwordResets = $passwordResets;
+        $this->passwordChanges = $passwordChanges;
         $this->passwordHasher = $passwordHasher;
         $this->tokenizer = $tokenizer;
         $this->mailer = $mailer;
@@ -68,25 +68,25 @@ class Handler
             throw new \DomainException('Old password is not correct');
         }
 
-        $this->passwordResetAlreadyExists($user);
+        $this->passwordChangeAlreadyExists($user);
 
-        $passwordReset = new PasswordReset(
+        $passwordChange = new PasswordChange(
             $user,
             $this->passwordHasher->hash($command->newPassword),
             $this->tokenizer->make(),
             new \DateTimeImmutable()
         );
 
-        $this->passwordResets->add($passwordReset);
+        $this->passwordChanges->add($passwordChange);
         $this->flusher->flush();
-        $this->mailer->mail($user->getEmail(), $passwordReset->getToken());
+        $this->mailer->mail($user->getEmail(), $passwordChange->getToken());
     }
 
-    private function passwordResetAlreadyExists(User $user): void
+    private function passwordChangeAlreadyExists(User $user): void
     {
-        if($passwordReset = $this->passwordResets->findByUser($user)) {
-            $passwordReset->resetTimeoutIsOut(new \DateTimeImmutable());
-            $this->passwordResets->remove($passwordReset);
+        if($passwordChange = $this->passwordChanges->findByUser($user)) {
+            $passwordChange->changeTimeoutIsOut(new \DateTimeImmutable());
+            $this->passwordChanges->remove($passwordChange);
             $this->flusher->flush();
         }
     }

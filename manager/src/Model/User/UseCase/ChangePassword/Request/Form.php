@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\User\UseCase\ResetPassword\Request;
+namespace App\Model\User\UseCase\ChangePassword\Request;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

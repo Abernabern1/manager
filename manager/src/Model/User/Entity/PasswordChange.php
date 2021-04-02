@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user_password_reset")
+ * @ORM\Table(name="user_password_change")
  */
-class PasswordReset
+class PasswordChange
 {
     public const INTERVAL = 'PT5M';
     public const EXPIRE_TIME = 'P1D';
@@ -69,17 +69,17 @@ class PasswordReset
         return $this->password;
     }
 
-    public function resetTimeoutIsOut(\DateTimeImmutable $currentTime): void
+    public function changeTimeoutIsOut(\DateTimeImmutable $currentTime): void
     {
         if($currentTime < $this->date->add(new \DateInterval(self::INTERVAL))) {
-            throw new \DomainException('You can reset your password only once every 5 minutes.');
+            throw new \DomainException('You can change your password only once every 5 minutes.');
         }
     }
 
     public function tokenIsNotExpired(\DateTimeImmutable $currentTime): void
     {
         if($currentTime > $this->date->add(new \DateInterval(self::EXPIRE_TIME))) {
-            throw new \DomainException('Password reset token is expired.');
+            throw new \DomainException('Password change token is expired.');
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\User\UseCase\ResetPassword\Request;
+namespace App\Model\User\UseCase\ChangePassword\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

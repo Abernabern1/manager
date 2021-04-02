@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\User\UseCase\ResetPassword\Confirm;
+namespace App\Model\User\UseCase\ChangePassword\Confirm;
 
 class Command
 {

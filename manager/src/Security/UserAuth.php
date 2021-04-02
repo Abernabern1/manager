@@ -112,12 +112,12 @@ class UserAuth implements UserInterface, EquatableInterface
             $this->id === $user->id &&
             $this->email === $user->email &&
             $this->login === $user->login &&
-            ($this->passwordIsReset() || $this->password === $user->password) &&
+            ($this->passwordIsChanged() || $this->password === $user->password) &&
             $this->role === $user->role &&
             $this->status === $user->status;
     }
 
-    private function passwordIsReset(): bool
+    private function passwordIsChanged(): bool
     {
         return in_array('Password is successfully changed.', $this->session->peek('success'));
     }

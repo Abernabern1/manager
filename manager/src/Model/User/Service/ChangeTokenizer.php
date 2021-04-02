@@ -4,9 +4,9 @@ namespace App\Model\User\Service;
 
 use Ramsey\Uuid\Uuid;
 
-class ResetTokenizer
+class ChangeTokenizer
 {
-    public function make()
+    public function make(): string
     {
         return Uuid::uuid4()->toString();
     }
