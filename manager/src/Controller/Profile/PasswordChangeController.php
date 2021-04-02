@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Auth;
+namespace App\Controller\Profile;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +10,9 @@ use App\Model\User\UseCase\ChangePassword;
 use App\Model\User\UseCase\ChangePassword\Request\Handler as RequestHandler;
 use App\Model\User\UseCase\ChangePassword\Confirm\Handler as ConfirmHandler;
 
+/**
+ * @Route("/profile", name="profile.")
+ */
 class PasswordChangeController extends AbstractController
 {
     /**
@@ -29,7 +32,7 @@ class PasswordChangeController extends AbstractController
     }
 
     /**
-     * @Route("/password_change", name="auth.password_change.request")
+     * @Route("/password_change", name="password_change.request")
      * @param Request $request
      * @return Response
      */
@@ -57,7 +60,7 @@ class PasswordChangeController extends AbstractController
     }
 
     /**
-     * @Route("/password_change/{token}", name="auth.password_change.confirm")
+     * @Route("/password_change/{token}", name="password_change.confirm")
      * @param string $token
      * @return Response
      */

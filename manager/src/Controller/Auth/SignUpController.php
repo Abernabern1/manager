@@ -42,11 +42,10 @@ class SignUpController extends AbstractController
     /**
      * @Route("/signup-confirm/{token}", name="auth.confirm")
      * @param string $token
-     * @param Request $request
      * @param SignUpConfirm\Handler $handler
      * @return Response
      */
-    public function confirm(string $token, Request $request, SignUpConfirm\Handler $handler): Response
+    public function confirm(string $token, SignUpConfirm\Handler $handler): Response
     {
         $command = new SignUpConfirm\Command();
         $command->token = $token;

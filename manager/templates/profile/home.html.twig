@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    {% for status in app.flashes('status') %}
+        {{ status }}
+    {% endfor %}
+    {% for error in app.flashes('error') %}
+        {{ error }}
+    {% endfor %}
+    {% for success in app.flashes('success') %}
+        {{ success }}
+    {% endfor %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+{% endblock %}
