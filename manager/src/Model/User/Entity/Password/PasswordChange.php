@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Model\User\Entity;
+namespace App\Model\User\Entity\Password;
 
+use App\Model\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user_password_change")
+ * @ORM\Table(name="user_password_changes")
  */
 class PasswordChange
 {
@@ -19,38 +20,39 @@ class PasswordChange
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    private $password;
+    protected $password;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true, length=40)
      */
-    private $token;
+    protected $token;
 
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="App\Model\User\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    protected $user;
 
     /**
      * @var \DateTimeImmutable
      * @ORM\Column(type="datetime_immutable")
      */
-    private $date;
+    protected $date;
+
 
     public function __construct(User $user, string $password, string $token, \DateTimeImmutable $date)
     {
-        $this->user = $user;
         $this->password = $password;
         $this->token = $token;
+        $this->user = $user;
         $this->date = $date;
     }
 
@@ -69,10 +71,10 @@ class PasswordChange
         return $this->password;
     }
 
-    public function changeTimeoutIsOut(\DateTimeImmutable $currentTime): void
+    public function resetTimeoutIsOut(\DateTimeImmutable $currentTime): void
     {
         if($currentTime < $this->date->add(new \DateInterval(self::INTERVAL))) {
-            throw new \DomainException('You can change your password only once every 5 minutes.');
+            throw new \DomainException('Password change is available only once every 5 minutes.');
         }
     }
 

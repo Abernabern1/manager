@@ -3,7 +3,7 @@
 namespace App\Model\User\Repository;
 
 use App\Model\EntityNotFoundException;
-use App\Model\User\Entity\PasswordChange;
+use App\Model\User\Entity\Password\PasswordChange;
 use App\Model\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

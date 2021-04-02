@@ -4,7 +4,7 @@ namespace App\Model\User\UseCase\ChangePassword\Request;
 
 use App\Model\Flusher;
 use App\Model\User\Entity\Email;
-use App\Model\User\Entity\PasswordChange;
+use App\Model\User\Entity\Password\PasswordChange;
 use App\Model\User\Entity\User;
 use App\Model\User\Repository\PasswordChangeRepository;
 use App\Model\User\Repository\UserRepository;
@@ -85,7 +85,7 @@ class Handler
     private function passwordChangeAlreadyExists(User $user): void
     {
         if($passwordChange = $this->passwordChanges->findByUser($user)) {
-            $passwordChange->changeTimeoutIsOut(new \DateTimeImmutable());
+            $passwordChange->tokenTimeoutIsOut(new \DateTimeImmutable());
             $this->passwordChanges->remove($passwordChange);
             $this->flusher->flush();
         }
