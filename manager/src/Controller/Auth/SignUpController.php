@@ -19,8 +19,11 @@ class SignUpController extends AbstractController
      */
     public function signup(Request $request, SignUp\Handler $handler): Response
     {
-        $command = new SignUp\Command();
+        if($this->userIsGuest()) {
+            return $this->redirectToRoute('profile.home');
+        }
 
+        $command = new SignUp\Command();
         $form = $this->createForm(SignUp\Form::class, $command);
         $form->handleRequest($request);
 
@@ -47,6 +50,10 @@ class SignUpController extends AbstractController
      */
     public function confirm(string $token, SignUpConfirm\Handler $handler): Response
     {
+        if($this->userIsGuest()) {
+            return $this->redirectToRoute('profile.home');
+        }
+
         $command = new SignUpConfirm\Command();
         $command->token = $token;
 
@@ -59,5 +66,10 @@ class SignUpController extends AbstractController
 
         $this->addFlash('success', 'You successfully confirmed your email. Now you can log in.');
         return $this->redirectToRoute('app_login');
+    }
+
+    private function userIsGuest(): bool
+    {
+        return (bool) $this->getUser();
     }
 }
