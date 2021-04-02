@@ -54,7 +54,7 @@ class PasswordChangeController extends AbstractController
             return $this->redirectToRoute('auth.password_change.request');
         }
 
-        return $this->render('auth/password_change.html.twig', [
+        return $this->render('profile/password_change.html.twig', [
             'form' => $form->createView()
         ]);
     }
