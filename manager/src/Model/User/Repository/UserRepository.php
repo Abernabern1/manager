@@ -47,4 +47,13 @@ class UserRepository
 
         return $user;
     }
+
+    public function getByEmail($email): User
+    {
+        if(!$user = $this->repo->findOneBy(['email' => $email])) {
+            throw new EntityNotFoundException("There is no user with email: $email");
+        }
+
+        return $user;
+    }
 }
