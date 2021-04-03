@@ -29,6 +29,15 @@ class PasswordResetRepository
         return $this->repo->findOneBy(['user' => $user]) ?: null;
     }
 
+    public function getByToken(string $token): PasswordReset
+    {
+        if(!$passwordReset = $this->repo->findOneBy(['token' => $token])) {
+            throw new EntityNotFoundException();
+        }
+
+        return $passwordReset;
+    }
+
     public function add(PasswordReset $passwordReset): void
     {
         $this->em->persist($passwordReset);

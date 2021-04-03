@@ -49,7 +49,7 @@ class PasswordReset
         $this->date = $date;
     }
 
-    public function getUser(): string
+    public function getUser(): User
     {
         return $this->user;
     }

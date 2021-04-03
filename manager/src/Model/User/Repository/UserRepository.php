@@ -30,6 +30,15 @@ class UserRepository
         $this->em->persist($user);
     }
 
+    public function get(int $id): User
+    {
+        if(!$user = $this->repo->find($id)) {
+            throw new EntityNotFoundException();
+        }
+
+        return $user;
+    }
+
     public function getByToken(string $token): User
     {
         if(!$user = $this->repo->findOneBy(['confirmToken' => $token])) {
@@ -51,7 +60,7 @@ class UserRepository
     public function getByEmail($email): User
     {
         if(!$user = $this->repo->findOneBy(['email' => $email])) {
-            throw new EntityNotFoundException("There is no user with email: $email");
+            throw new EntityNotFoundException("There is no user with given email.");
         }
 
         return $user;
