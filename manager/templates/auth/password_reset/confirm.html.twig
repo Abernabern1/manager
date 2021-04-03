@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Password reset{% endblock %}
+
+{% block body %}
+    {% for status in app.flashes('status') %}
+        {{ status }}
+    {% endfor %}
+    {% for error in app.flashes('error') %}
+        {{ error }}
+    {% endfor %}
+    {% for success in app.flashes('success') %}
+        {{ success }}
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.password) }}
+    {{ form_widget(form.token, {'attr': {'value': token}}) }}
+    <input type="submit" value="Send">
+    {{ form_end(form) }}
+{% endblock %}
