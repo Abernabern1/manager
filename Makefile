@@ -1,4 +1,4 @@
-init: down-clear build up composer-install
+init: down-clear build up composer-install wait-for-mysql migrations-run
 restart: down up
 
 build:
@@ -15,6 +15,9 @@ down-clear:
 
 composer-install:
 	docker-compose run app-php-cli composer install
+
+wait-for-mysql:
+	until docker-compose exec app-mysql mysqladmin ping --silent; do sleep 1; done; sleep 15
 
 migrations-make:
 	docker-compose run app-php-cli php bin/console doctrine:migrations:diff --no-interaction
