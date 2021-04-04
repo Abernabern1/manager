@@ -7,9 +7,9 @@ use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Login;
 use App\Model\User\Entity\User;
 use App\Model\User\Repository\UserRepository;
-use App\Model\User\Service\ConfirmTokenizer;
 use App\Model\User\Service\PasswordHasher;
 use App\Model\User\Service\SignUpConfirmTokenMailer;
+use App\Model\User\Service\Tokenizer;
 
 class Handler
 {
@@ -18,9 +18,9 @@ class Handler
      */
     private $passwordHasher;
     /**
-     * @var ConfirmTokenizer
+     * @var Tokenizer
      */
-    private $confirmTokenizer;
+    private $tokenizer;
     /**
      * @var UserRepository
      */
@@ -36,14 +36,14 @@ class Handler
 
     public function __construct(
         PasswordHasher $passwordHasher,
-        ConfirmTokenizer $confirmTokenizer,
+        Tokenizer $tokenizer,
         UserRepository $users,
         Flusher $flusher,
         SignUpConfirmTokenMailer $mailer
     )
     {
         $this->passwordHasher = $passwordHasher;
-        $this->confirmTokenizer = $confirmTokenizer;
+        $this->tokenizer = $tokenizer;
         $this->users = $users;
         $this->flusher = $flusher;
         $this->mailer = $mailer;
@@ -59,7 +59,7 @@ class Handler
             $email = new Email($command->email),
             new Login($command->login),
             $this->passwordHasher->hash($command->password),
-            $token = $this->confirmTokenizer->make()
+            $token = $this->tokenizer->make()
         );
 
         $this->users->add($user);

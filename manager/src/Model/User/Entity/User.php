@@ -50,12 +50,12 @@ class User
      */
     private $role;
     /**
-     * @var ConfirmToken
-     * @ORM\Column(type="user_confirm_token", name="confirm_token", nullable=true)
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
     private $confirmToken;
 
-    public function __construct(Email $email, Login $login, string $password, ConfirmToken $confirmToken)
+    public function __construct(Email $email, Login $login, string $password, string $confirmToken)
     {
         $this->email = $email;
         $this->login = $login;
@@ -100,7 +100,7 @@ class User
         return $this->password;
     }
 
-    public function getConfirmToken(): ConfirmToken
+    public function getConfirmToken(): string
     {
         return $this->confirmToken;
     }

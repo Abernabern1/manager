@@ -5,7 +5,6 @@ doctrine:
             user_email: 'App\Model\User\Type\EmailType'
             user_login: 'App\Model\User\Type\LoginType'
             user_role: 'App\Model\User\Type\RoleType'
-            user_confirm_token: 'App\Model\User\Type\ConfirmTokenType'
             user_password_date_time: 'App\Model\User\Type\PasswordDateTimeType'
 
         # IMPORTANT: You MUST configure your server version,

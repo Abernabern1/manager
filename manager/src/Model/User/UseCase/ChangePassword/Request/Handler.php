@@ -3,7 +3,6 @@
 namespace App\Model\User\UseCase\ChangePassword\Request;
 
 use App\Model\Flusher;
-use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Password\PasswordChange;
 use App\Model\User\Entity\Password\PasswordDateTime;
 use App\Model\User\Entity\User;
@@ -11,7 +10,7 @@ use App\Model\User\Repository\PasswordChangeRepository;
 use App\Model\User\Repository\UserRepository;
 use App\Model\User\Service\PasswordHasher;
 use App\Model\User\Service\PasswordChangeMailer;
-use App\Model\User\Service\ChangeTokenizer;
+use App\Model\User\Service\Tokenizer;
 
 class Handler
 {
@@ -31,7 +30,7 @@ class Handler
     private $passwordHasher;
 
     /**
-     * @var ChangeTokenizer
+     * @var Tokenizer
      */
     private $tokenizer;
 
@@ -49,7 +48,7 @@ class Handler
         UserRepository $users,
         PasswordChangeRepository $passwordChanges,
         PasswordHasher $passwordHasher,
-        ChangeTokenizer $tokenizer,
+        Tokenizer $tokenizer,
         PasswordChangeMailer $mailer,
         Flusher $flusher
     )

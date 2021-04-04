@@ -2,7 +2,6 @@
 
 namespace App\Model\User\Service;
 
-use App\Model\User\Entity\ConfirmToken;
 use Ramsey\Uuid\Uuid;
 
 class Tokenizer
