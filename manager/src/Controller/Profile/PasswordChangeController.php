@@ -11,7 +11,7 @@ use App\Model\User\UseCase\ChangePassword\Request\Handler as RequestHandler;
 use App\Model\User\UseCase\ChangePassword\Confirm\Handler as ConfirmHandler;
 
 /**
- * @Route("/profile", name="profile.")
+ * @Route("/profile/password_change", name="profile.password_change.")
  */
 class PasswordChangeController extends AbstractController
 {
@@ -32,7 +32,7 @@ class PasswordChangeController extends AbstractController
     }
 
     /**
-     * @Route("/password_change", name="password_change.request")
+     * @Route("", name="request")
      * @param Request $request
      * @return Response
      */
@@ -51,7 +51,7 @@ class PasswordChangeController extends AbstractController
             } catch (\DomainException $e) {
                 $this->addFlash('error', $e->getMessage());
             }
-            return $this->redirectToRoute('auth.password_change.request');
+            return $this->redirectToRoute('profile.password_change.request');
         }
 
         return $this->render('profile/password_change.html.twig', [
@@ -60,7 +60,7 @@ class PasswordChangeController extends AbstractController
     }
 
     /**
-     * @Route("/password_change/{token}", name="password_change.confirm")
+     * @Route("/{token}", name="confirm")
      * @param string $token
      * @return Response
      */
@@ -77,6 +77,6 @@ class PasswordChangeController extends AbstractController
             $this->addFlash('error', $e->getMessage());
         }
 
-        return $this->redirectToRoute('auth.password_change.request');
+        return $this->redirectToRoute('profile.password_change.request');
     }
 }

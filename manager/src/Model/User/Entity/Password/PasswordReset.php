@@ -11,42 +11,45 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PasswordReset
 {
-    public const INTERVAL = 'PT5M';
-    public const EXPIRE_TIME = 'P1D';
-
     /**
      * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true, length=40)
      */
-    protected $token;
+    private $token;
 
     /**
      * @var User
      * @ORM\OneToOne(targetEntity="App\Model\User\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $user;
+    private $user;
 
     /**
-     * @var \DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @var PasswordDateTime
+     * @ORM\Column(type="user_password_date_time", name="date_time")
      */
-    protected $date;
+    private $dateTime;
 
 
-    public function __construct(User $user, string $token, \DateTimeImmutable $date)
+    public function __construct(User $user, string $token, PasswordDateTime $dateTime)
     {
         $this->token = $token;
         $this->user = $user;
-        $this->date = $date;
+        $this->dateTime = $dateTime;
+    }
+
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getUser(): User
@@ -59,16 +62,16 @@ class PasswordReset
         return $this->token;
     }
 
-    public function tokenTimeoutIsOut(\DateTimeImmutable $currentTime): void
+    public function tokenTimeoutIsOut(\DateTimeImmutable $currentDateTime): void
     {
-        if($currentTime < $this->date->add(new \DateInterval(self::INTERVAL))) {
+        if(!$this->dateTime->timeoutIsOut($currentDateTime)) {
             throw new \DomainException('Password reset is available only once every 5 minutes.');
         }
     }
 
-    public function tokenIsNotExpired(\DateTimeImmutable $currentTime): void
+    public function tokenIsNotExpired(\DateTimeImmutable $currentDateTime): void
     {
-        if($currentTime > $this->date->add(new \DateInterval(self::EXPIRE_TIME))) {
+        if($this->dateTime->isExpired($currentDateTime)) {
             throw new \DomainException('Password reset token is expired.');
         }
     }

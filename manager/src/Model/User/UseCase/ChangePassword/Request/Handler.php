@@ -5,6 +5,7 @@ namespace App\Model\User\UseCase\ChangePassword\Request;
 use App\Model\Flusher;
 use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Password\PasswordChange;
+use App\Model\User\Entity\Password\PasswordDateTime;
 use App\Model\User\Entity\User;
 use App\Model\User\Repository\PasswordChangeRepository;
 use App\Model\User\Repository\UserRepository;
@@ -74,7 +75,7 @@ class Handler
             $user,
             $this->passwordHasher->hash($command->newPassword),
             $this->tokenizer->make(),
-            new \DateTimeImmutable()
+            new PasswordDateTime()
         );
 
         $this->passwordChanges->add($passwordChange);

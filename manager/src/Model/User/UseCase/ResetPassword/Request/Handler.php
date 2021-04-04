@@ -3,6 +3,7 @@
 namespace App\Model\User\UseCase\ResetPassword\Request;
 
 use App\Model\Flusher;
+use App\Model\User\Entity\Password\PasswordDateTime;
 use App\Model\User\Entity\Password\PasswordReset;
 use App\Model\User\Entity\User;
 use App\Model\User\Repository\PasswordResetRepository;
@@ -61,7 +62,7 @@ class Handler
         $passwordReset = new PasswordReset(
             $user,
             $this->tokenizer->make(),
-            new \DateTimeImmutable()
+            new PasswordDateTime()
         );
 
         $this->passwordResets->add($passwordReset);
