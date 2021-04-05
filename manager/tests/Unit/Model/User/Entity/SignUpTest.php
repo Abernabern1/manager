@@ -1,27 +1,23 @@
 <?php
 
-namespace App\Tests\User\SignUp;
+namespace App\Tests\Unit\Model\User\Entity;
 
+use App\Tests\Builders\User\UserBuilder;
+use PHPUnit\Framework\TestCase;
 use App\Model\User\Entity\Email;
 use App\Model\User\Entity\Login;
-use App\Model\User\Entity\User;
-use App\Model\User\Service\ConfirmTokenizer;
-use App\Model\User\Service\PasswordHasher;
-use PHPUnit\Framework\TestCase;
+use App\Model\User\Service\Tokenizer;
 
 class SignUpTest extends TestCase
 {
     public function testSuccess(): void
     {
-        $passwordHasher = new PasswordHasher(PASSWORD_ARGON2I);
-        $tokenizer = new ConfirmTokenizer();
-
-        $user = new User(
+        $user = UserBuilder::signUp(
             $email = new Email('email@email.email'),
             $login = new Login('login'),
-            $password = $passwordHasher->hash('password', 'password'),
-            $token = $tokenizer->make()
-        );
+            $password = 'password',
+            $token = (new Tokenizer())->make()
+        )->build();
 
         $this->assertEquals($email, $user->getEmail());
         $this->assertEquals($login, $user->getLogin());
