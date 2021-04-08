@@ -3,15 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    {% for status in app.flashes('status') %}
-        {{ status }}
-    {% endfor %}
-    {% for error in app.flashes('error') %}
-        {{ error }}
-    {% endfor %}
-    {% for success in app.flashes('success') %}
-        {{ success }}
-    {% endfor %}
+    {% include '_flashes.html.twig' %}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

@@ -1,0 +1,9 @@
+{% for status in app.flashes('status') %}
+    {{ status }}
+{% endfor %}
+{% for error in app.flashes('error') %}
+    {{ error }}
+{% endfor %}
+{% for success in app.flashes('success') %}
+    {{ success }}
+{% endfor %}

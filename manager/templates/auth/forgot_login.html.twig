@@ -3,15 +3,8 @@
 {% block title %}Password reset{% endblock %}
 
 {% block body %}
-    {% for status in app.flashes('status') %}
-        {{ status }}
-    {% endfor %}
-    {% for error in app.flashes('error') %}
-        {{ error }}
-    {% endfor %}
-    {% for success in app.flashes('success') %}
-        {{ success }}
-    {% endfor %}
+    {% include '_flashes.html.twig' %}
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" value="Send">
