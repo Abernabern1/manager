@@ -1,4 +1,4 @@
-init: down-clear build up composer-install wait-for-mysql migrations-run
+init: down-clear build up composer-install wait-for-mysql migrations-run assets-install
 restart: down up
 
 build:
@@ -24,3 +24,7 @@ migrations-make:
 
 migrations-run:
 	docker-compose run app-php-cli php bin/console doctrine:migrations:migrate --no-interaction
+
+assets-install:
+	docker-compose run app-node npm install
+	docker-compose run app-node npm run dev
